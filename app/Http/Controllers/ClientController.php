@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use Redirect;
+use Redirect;
 use Storage;
 use Inertia\Inertia;
 use App\Models\Client;
-//use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
