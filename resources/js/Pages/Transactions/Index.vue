@@ -24,7 +24,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(transaction, index) in transactions" :key="transaction.id">
+                    <tr v-for="(transaction, index) in getTransactions" :key="transaction.id">
                       <th scope="row">{{ index + 1 }}</th>
                       <td>{{ transaction.client_name }}</td>
                       <td>{{ transaction.transaction_date}}</td>
@@ -44,28 +44,44 @@
 
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
-
+    import Pagination from '@/Components/Pagination'
+    import throttle from 'lodash/throttle'
     export default {
         components: {
             BreezeAuthenticatedLayout,
+            Pagination
         },
 
         props: {
             auth: Object,
             errors: Object,
-            transactions:[]
+            transactions:Object
         },
-       
-        methods:{
-            addRecord(){
-                this.$inertia.visit(this.route("transactions.create"));
-            },
-            deleteItem(transactionId, index) {
-            if (confirm("Are you sure you want to delete this transaction?")) {
-                  this.transactions.splice(index, 1);
-                this.$inertia.delete(this.route("transactions.destroy", transactionId));
-            }
-        }
+        computed:{
+          getTransactions() {
+            if(this.transactions)
+              return this.transactions.data;
+          }
+        },
+        watch: {
+              form: {
+              handler: throttle(function() {
+                  let query = pickBy(this.form)
+                  this.$inertia.replace(this.route('transactions', Object.keys(query).length ? query : { remember: 'forget' }))
+              }, 150),
+              deep: true,
+              },
+          },
+          methods:{
+              addRecord(){
+                  this.$inertia.visit(this.route("transactions.create"));
+              },
+              deleteItem(transactionId, index) {
+              if (confirm("Are you sure you want to delete this transaction?")) {
+                    this.transactions.splice(index, 1);
+                  this.$inertia.delete(this.route("transactions.destroy", transactionId));
+              }
+          }
         }
     }
 </script>

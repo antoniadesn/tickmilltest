@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Redirect;
+//use Redirect;
 use Storage;
 use Inertia\Inertia;
 use App\Models\Client;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\Rule;
 
 class ClientController extends Controller
 {
@@ -27,7 +31,17 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Clients/Index',['clients'=>Client::all()]);
+        return Inertia::render('Clients/Index',['clients'=>Client::paginate(10)
+        ->withQueryString()
+        ->through(function ($client){
+            return[
+                'id' => $client->id,
+                'first_name' => $client->first_name,
+                'last_name' => $client->last_name,
+                'avatar' => $client->avatar,
+                'email' => $client->email
+            ];
+        })]);
     }
 
     /**

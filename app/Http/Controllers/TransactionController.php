@@ -26,7 +26,17 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Transactions/Index', ['transactions'=>Transaction::all()]);
+        return Inertia::render('Transactions/Index',['transactions'=>Transaction::paginate(10)
+        ->withQueryString()
+        ->through(function ($transaction){
+            return[
+                'id' => $transaction->id,
+                'transaction_date' => $transaction->transaction_date,
+                'amount' => $transaction->amount,
+                'client_id' => $transaction->client_id,
+                'client_name' => $transaction->client_name
+            ];
+        })]);
     }
 
     /**

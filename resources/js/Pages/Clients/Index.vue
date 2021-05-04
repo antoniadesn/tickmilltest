@@ -24,7 +24,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(client, index) in clients" :key="client.id">
+                    <tr v-for="(client, index) in getClients" :key="client.id">
                       <th scope="row">{{ index + 1 }}</th>
                       <td>{{ client.first_name }}</td>
                       <td>{{ client.last_name}}</td>
@@ -36,6 +36,7 @@
                     </tr>
                   </tbody>
                 </table>
+                <pagination :links="clients.links" />
               </div>
           </div>
       </div>
@@ -44,18 +45,35 @@
 
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
+    import Pagination from '@/Components/Pagination'
+    import throttle from 'lodash/throttle'
 
     export default {
         components: {
             BreezeAuthenticatedLayout,
+            Pagination
         },
 
         props: {
             auth: Object,
             errors: Object,
-            clients:[]
+            clients:Object
         },
-       
+       watch: {
+            form: {
+            handler: throttle(function() {
+                let query = pickBy(this.form)
+                this.$inertia.replace(this.route('clients', Object.keys(query).length ? query : { remember: 'forget' }))
+            }, 150),
+            deep: true,
+            },
+        },
+        computed:{
+          getClients() {
+            if(this.clients)
+              return this.clients.data;
+          }
+        },
         methods:{
             addRecord(){
                 this.$inertia.visit(this.route("clients.create"));
