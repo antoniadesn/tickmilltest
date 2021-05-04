@@ -94,7 +94,17 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        //
+        $clients = Client::All();
+
+        return Inertia::render("Transactions/Edit",[
+            'clients' => $clients,
+            'transaction' => [
+                'id' => $transaction->id,
+                'transaction_date' => $transaction->transaction_date,
+                'amount' => $transaction->amount,
+                'client_id' => $transaction->client_id,
+             ]
+        ]);
     }
 
     /**
@@ -106,7 +116,19 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-        //
+        $this->validate($request,[
+            'amount' => ['required'],
+            'client_id' => ['required'],
+            'transaction_date'=>['required'],
+        ]);
+
+        $transaction->amount = $request->amount;
+        $transaction->client_id = $request->client_id;
+        $transaction->transaction_date = $request->transaction_date;
+
+        $transaction->update();
+       
+       return Redirect::route('transactions.index')->with('success', 'Transaction updated.');
     }
 
     /**
