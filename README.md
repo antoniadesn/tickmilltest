@@ -22,20 +22,22 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 ## Installation
 
 
-1.Clone project
+1. Clone project
 
-2.Run composer install
+2. Run composer install
 
-4.Run npm install
+3. Run npm install
 
-3.Run cp .env.example .env or copy .env.example .env
+4. Run cp .env.example .env or copy .env.example .env
 
-4.Run php artisan key:generate
+5. Run php artisan key:generate
 
-6.Run php artisan migrate
+6. Run php artisan db:create
 
-7.Run php artisan db:seed --class=UserSeeder . This will create the built in user
+7. Run php artisan migrate
+
+8. Run php artisan db:seed --class=UserSeeder . This will create the built in user
 email: admin@admin.com
 password: password
 
-8.Run php artisan serve
+9. Run php artisan serve
