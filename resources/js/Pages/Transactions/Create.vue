@@ -6,18 +6,27 @@
         <div class="form-group">
             <label for="client">Client</label>
             <select  class="form-control selectpicker" v-model="selectedClient" >
-                    <option v-for="client in clients" :key="client.id" v-bind:value="client.id">
-                        {{client.first_name}} {{client.last_name}}
-                    </option>
-                </select>  
+                <option v-for="client in clients" :key="client.id" v-bind:value="client.id">
+                    {{client.first_name}} {{client.last_name}}
+                </option>
+            </select>  
+            <div v-if="errors.client_id" class="invalid-feedback" :style="styleObject">
+                {{errors.client_id}}
+            </div> 
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Transaction Amount</label>
             <input class="form-control" v-model="amount" placeholder="Enter amount" @keypress="onlyForCurrency">
+             <div v-if="errors.amount" class="invalid-feedback" :style="styleObject">
+                {{errors.amount}}
+            </div>
          </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Transaction Date</label>
             <input type="date" v-model="transaction_date" class="form-control" id="exampleInputEmail1"  placeholder="Enter transaction date">
+             <div v-if="errors.transaction_amount" class="invalid-feedback" :style="styleObject">
+                {{errors.transaction_amount}}
+            </div>
         </div>
         
     </form>

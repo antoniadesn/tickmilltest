@@ -6,21 +6,33 @@
     </div>
     <form @submit.prevent="submit">
         <div class="form-group">
-            <label for="exampleInputEmail1">First Name</label>
-            <input v-model="client.first_name" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter first name">
+            <label for="firstName">First Name</label>
+            <input id="firstName" v-model="client.first_name" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter first name">
+             <div v-if="errors.first_name" class="invalid-feedback" :style="styleObject">
+                {{errors.first_name}}
+            </div>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Last Name</label>
-            <input v-model="client.last_name" type="textr" class="form-control" id="exampleInputPassword1" placeholder="Enter last name">
+            <label for="lastName">Last Name</label>
+            <input v-model="client.last_name" type="textr" class="form-control" id="lastName" placeholder="Enter last name">
+             <div v-if="errors.last_name" class="invalid-feedback" :style="styleObject">
+                {{errors.last_name}}
+            </div>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" v-model="client.email" class="form-control" id="exampleInputEmail1"  placeholder="Enter email">
+            <label for="email">Email address</label>
+            <input type="email" v-model="client.email" class="form-control" id="email"  placeholder="Enter email">
+            <div v-if="errors.email" class="invalid-feedback" :style="styleObject">
+                {{errors.email}}
+            </div>       
         </div>
         <div class="form-group">
-            <label for="description">Picture</label>
-            <input type="file" name="picture" class="form-control-file" id="picture" @change="onFileChange">
+            <label for="avatar">Picture</label>
+            <input type="file" name="picture" class="form-control-file" id="avatar" @change="onFileChange">
             <img v-bind:src="imagePreview" width="100" height="100" v-show="showPreview"/>
+            <div v-if="errors.avatar" class="invalid-feedback" :style="styleObject">
+                {{errors.avatar}}
+            </div> 
         </div>
        <button @click="submit" class="btn btn-primary">Submit</button>
     </form>
